@@ -24,8 +24,8 @@ def limit_speed(speed):
 
 
 color_sensor = ev3.ColorSensor()
-motor_b = ev3.LargeMotor('outB')
-motor_c = ev3.LargeMotor('outC')
+left_motor = ev3.LargeMotor('outB')
+right_motor = ev3.LargeMotor('outC')
 calibration = get_json_from_file(calibration_file)
 pid_params = get_json_from_file(pid_file)
 
@@ -49,11 +49,11 @@ try:
         error = line_detector.get_error()
         delta = pid_regulator.proceed(error)
 
-        motor_b.run_forever(speed_sp=limit_speed(pid_params['speed'] + delta))
-        motor_c.run_forever(speed_sp=limit_speed(pid_params['speed'] - delta))
+        left_motor.run_forever(speed_sp=limit_speed(pid_params['speed'] + delta))
+        right_motor.run_forever(speed_sp=limit_speed(pid_params['speed'] - delta))
 
         if 'enter' in buttons.buttons_pressed:
             break
 finally:
-    motor_c.run_forever(speed_sp=0)
-    motor_b.run_forever(speed_sp=0)
+    right_motor.run_forever(speed_sp=0)
+    left_motor.run_forever(speed_sp=0)

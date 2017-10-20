@@ -6,14 +6,9 @@ import time
 import ev3dev.ev3 as ev3
 
 from common.line_detectors import LineDetector
+from common.utils import wait_button
 
 __author__ = 'Xomak'
-
-
-def wait_button():
-    buttons = ev3.Button()
-    while 'enter' not in buttons.buttons_pressed:
-        time.sleep(0.1)
 
 color_sensor = ev3.ColorSensor()
 

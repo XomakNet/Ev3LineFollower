@@ -31,3 +31,33 @@ class OneSensorLineDetector(LineDetector):
         return error
 
 
+class TwoSensorsLineDetector(LineDetector):
+
+    def __init__(self, left_sensor, right_sensor, calibration):
+        self.sensors = {'left': left_sensor, 'right': right_sensor}
+        self.set_calibration(calibration)
+        self.calibration = None
+        self.mean = None
+        self.inversed = False
+
+    def set_calibration(self, calibration):
+        self.calibration = calibration
+        self.inversed = calibration['line'] < calibration['terrain']
+
+    def _sensor_error(self, sensor):
+        target_value = self.calibration['{}_on_line'.format(sensor)]
+        return self.get_color(self.sensors[sensor]) - target_value
+
+    def get_error(self):
+        left_sensor_error = self._sensor_error('left')
+        right_sensor_error = self._sensor_error('right')
+        mean_error = (abs(left_sensor_error) + abs(right_sensor_error))/2
+
+        if right_sensor_error < 0:
+            mean_error = -mean_error
+
+        if self.inversed:
+            mean_error = -mean_error
+        return mean_error
+
+
