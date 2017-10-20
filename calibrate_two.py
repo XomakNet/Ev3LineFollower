@@ -20,7 +20,7 @@ wait_button()
 calibration['line'] = (LineDetector.get_color(left_color_sensor) + LineDetector.get_color(right_color_sensor))/2
 print("Please, show me the terrain and press the button...")
 wait_button()
-calibration['line'] = (LineDetector.get_color(left_color_sensor) + LineDetector.get_color(right_color_sensor))/2
+calibration['terrain'] = (LineDetector.get_color(left_color_sensor) + LineDetector.get_color(right_color_sensor))/2
 print("Please, show put me along the line and press the button...")
 wait_button()
 calibration['left_on_line'] = LineDetector.get_color(left_color_sensor)

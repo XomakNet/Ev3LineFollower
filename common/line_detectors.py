@@ -15,9 +15,9 @@ class OneSensorLineDetector(LineDetector):
 
     def __init__(self, sensor, calibration):
         self.sensor = sensor
-        self.set_calibration(calibration)
         self.mean = None
         self.inversed = False
+        self.set_calibration(calibration)
 
     def set_calibration(self, calibration):
         self.mean = abs(calibration['line'] - calibration['terrain']) / 2
@@ -35,10 +35,10 @@ class TwoSensorsLineDetector(LineDetector):
 
     def __init__(self, left_sensor, right_sensor, calibration):
         self.sensors = {'left': left_sensor, 'right': right_sensor}
-        self.set_calibration(calibration)
         self.calibration = None
         self.mean = None
         self.inversed = False
+        self.set_calibration(calibration)
 
     def set_calibration(self, calibration):
         self.calibration = calibration
