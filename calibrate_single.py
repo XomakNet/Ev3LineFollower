@@ -21,5 +21,5 @@ print("Please, show me the terrain and press the button...")
 wait_button()
 calibration['terrain'] = LineDetector.get_color(color_sensor)
 
-with open("calibration.json", "w") as f:
+with open("data/calibration_one_sensor.json", "w") as f:
     f.write(json.dumps(calibration))

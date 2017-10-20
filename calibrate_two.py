@@ -21,10 +21,10 @@ calibration['line'] = (LineDetector.get_color(left_color_sensor) + LineDetector.
 print("Please, show me the terrain and press the button...")
 wait_button()
 calibration['terrain'] = (LineDetector.get_color(left_color_sensor) + LineDetector.get_color(right_color_sensor))/2
-print("Please, show put me along the line and press the button...")
+print("Please, put me along the line and press the button...")
 wait_button()
 calibration['left_on_line'] = LineDetector.get_color(left_color_sensor)
 calibration['right_on_line'] = LineDetector.get_color(left_color_sensor)
 
-with open("calibration.json", "w") as f:
+with open("data/calibration_two_sensors.json", "w") as f:
     f.write(json.dumps(calibration))
