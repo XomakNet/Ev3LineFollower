@@ -5,7 +5,7 @@ class LineDetector:
 
     @staticmethod
     def get_color(color_sensor):
-        return color_sensor.red
+        return color_sensor.reflected_light_intensity
 
     def get_error(self):
         pass
@@ -51,13 +51,15 @@ class TwoSensorsLineDetector(LineDetector):
     def get_error(self):
         left_sensor_error = self._sensor_error('left')
         right_sensor_error = self._sensor_error('right')
-        mean_error = (abs(left_sensor_error) + abs(right_sensor_error))/2
 
-        if right_sensor_error < 0:
-            mean_error = -mean_error
+        if abs(left_sensor_error) > abs(right_sensor_error):
+            error = -abs(left_sensor_error)
+        else:
+            error = abs(right_sensor_error)
 
         if self.inversed:
-            mean_error = -mean_error
-        return mean_error
+            error = -error
+
+        return error
 
 
