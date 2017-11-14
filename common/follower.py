@@ -15,6 +15,8 @@ class Follower:
         self.update_interval = 100
         self.pid_file = pid_and_speed_file
         self.buttons = ev3.Button()
+        self.left_speed = None
+        self.right_speed = None
         self.pid_regulator = PIDRegulator()
         self.line_detector = line_detector
         self.update_pid_enabled = update_pid
@@ -43,8 +45,14 @@ class Follower:
         error = self.line_detector.get_error()
         delta = self.pid_regulator.proceed(error)
 
-        self.left_motor.run_forever(speed_sp=self._limit_speed(self.pid_and_speed_params['speed'] + delta))
-        self.right_motor.run_forever(speed_sp=self._limit_speed(self.pid_and_speed_params['speed'] - delta))
+        self.left_speed = self._limit_speed(self.pid_and_speed_params['speed'] + delta)
+        self.right_speed = self._limit_speed(self.pid_and_speed_params['speed'] - delta)
+
+        self.left_motor.run_forever(speed_sp=self.left_speed)
+        self.right_motor.run_forever(speed_sp=self.right_speed)
+
+    def on_stop(self):
+        pass
 
     def follow(self):
         print("Main cycle started...")
@@ -60,3 +68,4 @@ class Follower:
         finally:
             self.right_motor.run_forever(speed_sp=0)
             self.left_motor.run_forever(speed_sp=0)
+            self.on_stop()
